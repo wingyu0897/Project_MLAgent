@@ -180,10 +180,10 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 1
 --- !u!135 &316152451
 SphereCollider:
@@ -218,11 +218,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4437e99218e4ce94788398de9e54fc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1000
   maxSpeed: 30
-  acceleration: 1
+  acceleration: 100
   accelAngle: 5
-  turnRate: 720
+  turnRate: 100
 --- !u!1 &327753469
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,7 +637,7 @@ Transform:
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.8660254, z: -0.5, w: 0}
-  m_LocalPosition: {x: 0, y: 41.9, z: 43.8}
+  m_LocalPosition: {x: 0, y: 165.33, z: 259.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -651,7 +650,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2694512a27b740409a8c5153d4e7c73, type: 3}
   m_Name: 
@@ -897,8 +896,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   carController: {fileID: 316152452}
   turnRate: 360
-  minAngle: -80
-  maxAngle: 80
+  minAngle: -89
+  maxAngle: 89
 --- !u!1 &1711416362
 GameObject:
   m_ObjectHideFlags: 0

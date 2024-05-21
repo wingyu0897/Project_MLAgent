@@ -20,18 +20,30 @@ public class HandleUI : MonoBehaviour
 			float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90;
 			angle = angle > 180f ? -360 + angle : angle;
 			angle = Mathf.Clamp(angle, minAngle, maxAngle);
-			float rotZ = transform.eulerAngles.z;
-			rotZ = rotZ > 180 ? rotZ - 360f : rotZ;
-			float sign = Mathf.Sign(angle - rotZ);
+			//float rotZ = transform.eulerAngles.z;
+			//rotZ = rotZ > 180 ? rotZ - 360f : rotZ;
+			//float sign = Mathf.Sign(angle - rotZ);
 
-			float lerpAngle = rotZ + sign * turnRate * Time.deltaTime;
-			if (sign != Mathf.Sign(angle - lerpAngle))
-			{
-				lerpAngle = angle;
-			}
+			//float lerpAngle = rotZ + sign * turnRate * Time.deltaTime;
+			//if (sign != Mathf.Sign(angle - lerpAngle))
+			//{
+			//	lerpAngle = angle;
+			//}
 
-			transform.rotation = Quaternion.Euler(0, 0, lerpAngle);
-			carController.Turn(-lerpAngle);
+			transform.rotation = Quaternion.Euler(0, 0, angle);
+			carController.SetDesireAngle(-angle);
+		}
+		else if (Input.GetMouseButton(0))
+		{
+			Vector2 touchPos = Input.mousePosition;
+			Vector2 dir = touchPos - (Vector2)transform.position;
+
+			float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg + 90;
+			angle = angle > 180f ? -360 + angle : angle;
+			angle = Mathf.Clamp(angle, minAngle, maxAngle);
+
+			transform.rotation = Quaternion.Euler(0, 0, angle);
+			carController.SetDesireAngle(-angle);
 		}
 	}
 }

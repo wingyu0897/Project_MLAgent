@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class FollowCam : MonoBehaviour
 {
     [SerializeField] private Transform target;
