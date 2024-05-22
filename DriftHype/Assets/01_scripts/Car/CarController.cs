@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CarController : MonoBehaviour
@@ -8,7 +6,7 @@ public class CarController : MonoBehaviour
     [SerializeField] private float maxSpeed;
 	[SerializeField] private float acceleration;
 	[Range(0f, 180f)]
-	[SerializeField] private float accelTresholdAngle = 5f;
+	[SerializeField] private float accelThresholdAngle = 5f;
 
 	[Header("Turn")]
     [SerializeField] private float turnRate;
@@ -17,15 +15,14 @@ public class CarController : MonoBehaviour
     private Rigidbody rigid;
 
 	[Header("Flags")]
-	private float desireAngle;
-	private float currentAngle;
-	private float currentSpeed;
+	private float inputAngle;
+	private float beforeSpeed;
 	private Vector3 velocity;
 
 	private void Awake()
 	{
 		rigid = GetComponent<Rigidbody>();
-		accelTresholdAngle *= Mathf.Deg2Rad;
+		accelThresholdAngle *= Mathf.Deg2Rad;
 	}
 
 	private void FixedUpdate()
@@ -38,63 +35,89 @@ public class CarController : MonoBehaviour
 	{
 		velocity = Vector3.zero;
 
-		float radAngle = Mathf.Deg2Rad * (-desireAngle + 90f);
-		Vector3 desireDir = new Vector3(Mathf.Cos(radAngle), 0 , Mathf.Sin(radAngle));
+		float inputAngleRad = Mathf.Deg2Rad * (-inputAngle + 90f);
+		Vector3 desireDir = new Vector3(Mathf.Cos(inputAngleRad), 0 , Mathf.Sin(inputAngleRad));
 		Vector3 velocityDir = rigid.velocity.normalized;
-		float angleDot = Vector3.Dot(desireDir, velocityDir);
+		float angleDot = Vector3.Dot(desireDir, velocityDir); // 내가 가고자 하는 방향과 현재 진행 방향의 격차(Cosθ)
 
-		if (rigid.velocity == Vector3.zero || (1 - Mathf.Abs(angleDot)) < accelTresholdAngle)
+		// 현재 멈추어 있거나, angleDot이 일정 각도 이하일 때
+		if (rigid.velocity == Vector3.zero || (1 - Mathf.Abs(angleDot)) < accelThresholdAngle) // 가속
 		{
 			print("가속");
-			velocity = transform.forward * CalculatedSpeed();
+
+			float cos = Vector3.Dot(transform.forward, velocityDir);
+
+			float velocityAngle = Mathf.Atan2(velocityDir.z, velocityDir.x);
+			velocityAngle = velocityAngle < -Mathf.PI * 0.5f ? 2 * Mathf.PI + velocityAngle : velocityAngle;
+			float lerpAngle, carDirAngle;
+			carDirAngle = Mathf.Atan2(transform.forward.z, transform.forward.x) - (cos < 0f ? Mathf.PI : 0);
+			carDirAngle = carDirAngle < -Mathf.PI * 0.5f ? 2 * Mathf.PI + carDirAngle : carDirAngle;
+			lerpAngle = Mathf.Lerp(velocityAngle, carDirAngle, 0.1f);
+			Vector3 dir = new Vector3(Mathf.Cos(lerpAngle), 0, Mathf.Sin(lerpAngle)).normalized;
+			velocity = dir * (cos < 0 ? -CalculatedSpeed() : CalculatedSpeed());
+
 			rigid.velocity = velocity;
 		}
-		else
+		else // 감속
 		{
 			print("감속");
-			Vector3 dragDir = Vector3.zero;
+
+			Vector3 dragDir;
 			Vector3 n = Vector3.Cross(transform.forward, velocityDir);
-			dragDir = Vector3.Cross(transform.forward, n);
+			dragDir = Vector3.Cross(transform.forward, n).normalized;
 			velocity = rigid.velocity;
-			velocity += dragDir;
-			rigid.velocity = velocity;
+			velocity += dragDir * 0.2f;
+			Vector3 v = transform.forward * (CalculatedSpeed(true) - beforeSpeed);
+
+			rigid.velocity = velocity + v;
+
+			Debug.DrawRay(transform.position, dragDir * 50f, Color.magenta); // Drag의 방향
 		}
 
 		Debug.DrawRay(transform.position, desireDir * 50f, Color.red); // 핸들 방향
 		Debug.DrawRay(transform.position, velocityDir * rigid.velocity.magnitude, Color.green); // 힘의 방향
-		Debug.DrawRay(transform.position, transform.forward * currentSpeed, Color.blue); // 객체 방향
+		Debug.DrawRay(transform.position, transform.forward * beforeSpeed, Color.blue); // 객체 방향
 	}
 
-	private float CalculatedSpeed()
+	private float CalculatedSpeed(bool isDragging = false)
 	{
 		float angleBetween = Vector3.Angle(transform.forward, rigid.velocity.normalized);
 		float cosBetween = Mathf.Cos(angleBetween * Mathf.Deg2Rad);
 		float speedForward = cosBetween * rigid.velocity.magnitude;
-		currentSpeed = speedForward;
+		beforeSpeed = speedForward;
 
-		if (currentSpeed <= maxSpeed)
+		float calcSpeed = beforeSpeed;
+
+		if (calcSpeed <= maxSpeed)
 		{
-			currentSpeed += acceleration * Time.fixedDeltaTime;
-			currentSpeed = Mathf.Clamp(currentSpeed, float.MinValue, maxSpeed);
+			if (isDragging)
+			{
+				calcSpeed += acceleration * 0.5f * Time.fixedDeltaTime;
+			}
+			else
+			{
+				calcSpeed += acceleration * Time.fixedDeltaTime;
+			}
+			calcSpeed = Mathf.Clamp(calcSpeed, float.MinValue, maxSpeed);
 		}
 
-		return currentSpeed;
+		return calcSpeed;
 	}
 
-	public void SetDesireAngle(float angle)
+	public void SetAngleDesire(float angleInput)
 	{
-		desireAngle = angle;
+		inputAngle = angleInput;
 	}
 	
 	private void Turn()
 	{
 		float rotY = transform.eulerAngles.y;
 		rotY = rotY > 180 ? rotY - 360f : rotY;
-		float sign = Mathf.Sign(desireAngle - rotY);
+		float sign = Mathf.Sign(inputAngle - rotY);
 		float lerpAngle = rotY + sign * turnRate * Time.fixedDeltaTime;
-		if (sign != Mathf.Sign(desireAngle - lerpAngle))
+		if (sign != Mathf.Sign(inputAngle - lerpAngle))
 		{
-			lerpAngle = desireAngle;
+			lerpAngle = inputAngle;
 		}
 
 		transform.rotation = Quaternion.Euler(0, lerpAngle, 0);

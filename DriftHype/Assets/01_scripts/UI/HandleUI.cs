@@ -31,7 +31,7 @@ public class HandleUI : MonoBehaviour
 			//}
 
 			transform.rotation = Quaternion.Euler(0, 0, angle);
-			carController.SetDesireAngle(-angle);
+			carController.SetAngleDesire(-angle);
 		}
 		else if (Input.GetMouseButton(0))
 		{
@@ -43,7 +43,7 @@ public class HandleUI : MonoBehaviour
 			angle = Mathf.Clamp(angle, minAngle, maxAngle);
 
 			transform.rotation = Quaternion.Euler(0, 0, angle);
-			carController.SetDesireAngle(-angle);
+			carController.SetAngleDesire(-angle);
 		}
 	}
 }
