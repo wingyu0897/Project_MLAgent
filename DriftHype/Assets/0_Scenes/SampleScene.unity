@@ -550,12 +550,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4437e99218e4ce94788398de9e54fc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 30
-  acceleration: 30
+  maxSpeed: 40
+  acceleration: 20
   accelThresholdAngle: 3
   forwardLerpValue: 0.05
   drag: 0.3
-  turnRate: 180
+  dragAcceleration: 0.5
+  turnRate: 110
 --- !u!1 &327753469
 GameObject:
   m_ObjectHideFlags: 0
@@ -1814,13 +1815,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c2694512a27b740409a8c5153d4e7c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 316152449}
-  offset: {x: 0, y: 40.9, z: 43.8}
+  offset: {x: 0, y: 100, z: 100}
 --- !u!1 &982028112
 GameObject:
   m_ObjectHideFlags: 0
