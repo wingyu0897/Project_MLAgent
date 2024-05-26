@@ -1,14 +1,16 @@
+using System;
 using UnityEngine;
 
 public class HandleUI : MonoBehaviour
 {
-	[SerializeField] private CarController carController;
 	[Tooltip("Degree Per Second")]
 	[SerializeField] private float turnRate;
 	[Range(-180f, 0f)] 
 	[SerializeField] private float minAngle;
 	[Range(0f, 180f)]
 	[SerializeField] private float maxAngle;
+
+	public event Action<float> OnAngleInput;
 
 	private void Update()
 	{
@@ -31,7 +33,7 @@ public class HandleUI : MonoBehaviour
 			//}
 
 			transform.rotation = Quaternion.Euler(0, 0, angle);
-			carController.SetAngleDesire(-angle);
+			OnAngleInput?.Invoke(-angle);
 		}
 		else if (Input.GetMouseButton(0))
 		{
@@ -43,7 +45,7 @@ public class HandleUI : MonoBehaviour
 			angle = Mathf.Clamp(angle, minAngle, maxAngle);
 
 			transform.rotation = Quaternion.Euler(0, 0, angle);
-			carController.SetAngleDesire(-angle);
+			OnAngleInput?.Invoke(-angle);
 		}
 	}
 }
