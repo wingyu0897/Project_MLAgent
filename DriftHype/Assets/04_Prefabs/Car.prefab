@@ -207,3 +207,5 @@ MonoBehaviour:
   drag: 0.3
   dragAcceleration: 0.5
   turnRate: 110
+  bounceSpeed: 20
+  bouncePower: 10

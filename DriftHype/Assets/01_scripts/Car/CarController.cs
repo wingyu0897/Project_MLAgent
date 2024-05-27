@@ -62,12 +62,18 @@ public class CarController : MonoBehaviour
 				float cos = Vector3.Dot(transform.forward, velocityDir);
 
 				float velocityAngle = Mathf.Atan2(velocityDir.z, velocityDir.x);
-				//velocityAngle = velocityAngle < -(Mathf.PI * 0.5f) ? Mathf.PI - velocityAngle : velocityAngle;
 				velocityAngle = velocityAngle < -(Mathf.PI * 0.5f) ? 2 * Mathf.PI + velocityAngle : velocityAngle;
 				float carDirAngle = Mathf.Atan2(transform.forward.z, transform.forward.x) - (cos <= 0f ? Mathf.PI : 0);
-				//carDirAngle = carDirAngle < -(Mathf.PI * 0.5f) ? Mathf.PI - carDirAngle : carDirAngle;
 				carDirAngle = carDirAngle < -(Mathf.PI * 0.5f) ? 2 * Mathf.PI + carDirAngle : carDirAngle;
-				float lerpAngle = Mathf.Lerp(velocityAngle, carDirAngle, forwardLerpValue);
+				
+				float lerpAngle;
+				if (velocityAngle > Mathf.PI && carDirAngle < 0)
+					lerpAngle = Mathf.Lerp(velocityAngle, carDirAngle + Mathf.PI * 2f, forwardLerpValue);
+				else if (carDirAngle > Mathf.PI && velocityAngle < 0)
+					lerpAngle = Mathf.Lerp(velocityAngle, carDirAngle - Mathf.PI * 2f, forwardLerpValue);
+				else
+					lerpAngle = Mathf.Lerp(velocityAngle, carDirAngle, forwardLerpValue);
+
 				Vector3 lerpDir = new Vector3(Mathf.Cos(lerpAngle), 0, Mathf.Sin(lerpAngle)).normalized;
 				float speed = (cos <= 0 ? -CalculatedSpeed() : CalculatedSpeed());
 				float n = Mathf.Abs(1 / Vector3.Dot(transform.forward, lerpDir));
@@ -88,12 +94,16 @@ public class CarController : MonoBehaviour
 
 			rigid.velocity = velocity + v;
 
+#if UNITY_EDITOR
 			Debug.DrawRay(transform.position, dragDir * 50f, Color.magenta); // Drag의 방향
 		}
 
 		Debug.DrawRay(transform.position, desireDir * 50f, Color.red); // 핸들 방향
 		Debug.DrawRay(transform.position, velocityDir * rigid.velocity.magnitude, Color.green); // 힘의 방향
 		Debug.DrawRay(transform.position, transform.forward * beforeSpeed, Color.blue); // 객체 방향
+#else
+		}
+#endif
 	}
 
 	private float CalculatedSpeed(bool isDragging = false)
@@ -131,7 +141,7 @@ public class CarController : MonoBehaviour
 	{
 		float rotY = transform.eulerAngles.y;
 		rotY = rotY > 180 ? rotY - 360f : rotY;
-		float sign = Mathf.Sign(inputAngle - rotY);
+		float sign = Mathf.Sign(Mathf.DeltaAngle(rotY, inputAngle));
 		float lerpAngle = rotY + sign * turnRate * Time.fixedDeltaTime;
 		if (sign != Mathf.Sign(inputAngle - lerpAngle))
 		{
