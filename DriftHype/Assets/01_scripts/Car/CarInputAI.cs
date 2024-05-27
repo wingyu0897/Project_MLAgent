@@ -29,6 +29,8 @@ public class CarInputAI : Agent
 
 	public override void OnEpisodeBegin()
 	{
+		carController.StopMovement();
+		carController.transform.rotation = Quaternion.Euler(0, 0, 0);
 		map.GenerateMap();
 		currentAngle = 0f;
 		transform.localPosition = Vector3.up;
@@ -52,16 +54,10 @@ public class CarInputAI : Agent
 			_ => currentAngle,
 		};
 
+
 		carController.SetAngleDesire(currentAngle);
 
-		AddReward(1f / StepCount);
-
-		if (Vector3.Distance(transform.position, target.position) <= 15f)
-		{
-			StartCoroutine(ChangeFloorColorCo());
-			AddReward(10f);
-			EndEpisode();
-		}
+		AddReward(-1f / StepCount);
 	}
 
 	private void OnCollisionEnter(Collision collision)
@@ -69,6 +65,17 @@ public class CarInputAI : Agent
 		if (collision.gameObject.CompareTag("Wall"))
 		{
 			AddReward(-0.1f);
+			//EndEpisode();
+		}
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.CompareTag("Target"))
+		{
+			StartCoroutine(ChangeFloorColorCo());
+			AddReward(10f);
+			EndEpisode();
 		}
 	}
 

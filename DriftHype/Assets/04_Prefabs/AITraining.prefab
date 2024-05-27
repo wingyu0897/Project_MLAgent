@@ -621,9 +621,10 @@ GameObject:
   - component: {fileID: 7922789370060763379}
   - component: {fileID: 2159835786375746839}
   - component: {fileID: 2497348960951894248}
+  - component: {fileID: 3400999831839725840}
   m_Layer: 0
   m_Name: Target
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -637,7 +638,7 @@ Transform:
   m_GameObject: {fileID: 8358636612081914807}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 30, y: 100, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -693,6 +694,29 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!136 &3400999831839725840
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8358636612081914807}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5000001
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!1001 &6209803134686589491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -815,7 +839,7 @@ MonoBehaviour:
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
   map: {fileID: 6719360489185700944}
-  handleSensitive: 360
+  handleSensitive: 180
   target: {fileID: 7922789370060763379}
   meshRen: {fileID: 682416431299536560}
   successMat: {fileID: 2100000, guid: fcf06ea3f29396b4ba860d70676a99d3, type: 2}
@@ -848,10 +872,11 @@ MonoBehaviour:
   m_SensorName: RayPerceptionSensor
   m_DetectableTags:
   - Wall
-  m_RaysPerDirection: 3
-  m_MaxRayDegrees: 70
+  - Target
+  m_RaysPerDirection: 10
+  m_MaxRayDegrees: 90
   m_SphereCastRadius: 0.5
-  m_RayLength: 50
+  m_RayLength: 200
   m_RayLayerMask:
     serializedVersion: 2
     m_Bits: 4294967241

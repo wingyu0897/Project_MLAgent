@@ -129,6 +129,12 @@ public class CarController : MonoBehaviour
 
 		return calcSpeed;
 	}
+
+	public void StopMovement()
+	{
+		rigid.velocity = Vector3.zero;
+		rigid.angularVelocity = Vector3.zero;
+	}
 	#endregion
 
 	#region Turn

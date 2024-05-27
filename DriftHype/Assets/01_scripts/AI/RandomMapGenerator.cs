@@ -12,7 +12,7 @@ public class RandomMapGenerator : MonoBehaviour
 	private void Awake()
 	{
 		cubes = new List<GameObject>();
-		for (int i = 0; i < 15; ++i)
+		for (int i = 0; i < 10; ++i)
 		{
 			GameObject cube = Instantiate(cubePrefab, transform);
 			cubes.Add(cube);
@@ -30,7 +30,7 @@ public class RandomMapGenerator : MonoBehaviour
 			do
 			{
 				pos = new Vector3(Random.Range(-200f, 200f), 0, Random.Range(-200f, 200f));
-			} while (Vector3.Distance(pos, target.position) < 30f);
+			} while (Vector3.Distance(pos, target.position) < 30f || Vector3.Distance(pos, transform.position) < 30f);
 			cube.transform.localPosition = pos;
 		}
 	}
