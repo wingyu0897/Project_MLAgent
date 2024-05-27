@@ -16,6 +16,10 @@ public class CarController : MonoBehaviour
 	[Header("Turn")]
 	[SerializeField] private float turnRate;
 
+	[Header("Collision")]
+	[SerializeField] private float bounceSpeed;
+	[SerializeField] private float bouncePower = 5f;
+
 	[Header("References")]
 	private Rigidbody rigid;
 
@@ -36,6 +40,7 @@ public class CarController : MonoBehaviour
 		Move();
 	}
 
+	#region Movement
 	private void Move()
 	{
 		velocity = Vector3.zero;
@@ -114,7 +119,9 @@ public class CarController : MonoBehaviour
 
 		return calcSpeed;
 	}
+	#endregion
 
+	#region Turn
 	public void SetAngleDesire(float angleInput)
 	{
 		inputAngle = angleInput;
@@ -133,4 +140,21 @@ public class CarController : MonoBehaviour
 
 		transform.rotation = Quaternion.Euler(0, lerpAngle, 0);
 	}
+	#endregion
+
+	#region Collision
+	private void OnCollisionEnter(Collision collision)
+	{
+		if (collision.gameObject.CompareTag("Wall"))
+		{
+			ContactPoint point = collision.contacts[0];
+			float angle = Mathf.Abs(Vector3.SignedAngle(transform.forward, -point.normal, Vector3.up)) * Mathf.Deg2Rad;
+			float normalVelocity = Mathf.Cos(angle) * collision.relativeVelocity.magnitude;
+			if (normalVelocity > bounceSpeed)
+			{
+				rigid.AddForce(point.normal * bouncePower, ForceMode.Impulse);
+			}
+		}
+	}
+	#endregion
 }
