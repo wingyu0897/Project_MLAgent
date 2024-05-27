@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3695701707214402330}
   - component: {fileID: 6990089276812011005}
   - component: {fileID: 8771298258866887685}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 3433322791792721457}
   - component: {fileID: 4980299899617613004}
   - component: {fileID: 3773687015387171796}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Car
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -174,7 +174,7 @@ SphereCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8494690079258904425}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: a98037d254373d046ba8e6f4a05e9cae, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

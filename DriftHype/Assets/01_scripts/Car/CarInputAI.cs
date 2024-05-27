@@ -9,7 +9,6 @@ public class CarInputAI : Agent
 {
 	private CarController carController;
 	private float currentAngle;
-	[SerializeField] RandomMapGenerator map;
 
 	[Header("Controll")]
 	[SerializeField] private float handleSensitive = 360f;
@@ -17,21 +16,15 @@ public class CarInputAI : Agent
 	[Header("Navigate")]
 	[SerializeField] private Transform target;
 
-	[SerializeField] private MeshRenderer meshRen;
-	private Material originMat;
-	[SerializeField] private Material successMat;
-
 	public override void Initialize()
 	{
 		carController = GetComponent<CarController>();
-		originMat = meshRen.material;
 	}
 
 	public override void OnEpisodeBegin()
 	{
 		carController.StopMovement();
 		carController.transform.rotation = Quaternion.Euler(0, 0, 0);
-		map.GenerateMap();
 		currentAngle = 0f;
 		transform.localPosition = Vector3.up;
 	}
@@ -73,16 +66,8 @@ public class CarInputAI : Agent
 	{
 		if (other.gameObject.CompareTag("Target"))
 		{
-			StartCoroutine(ChangeFloorColorCo());
 			AddReward(10f);
 			EndEpisode();
 		}
-	}
-
-	private IEnumerator ChangeFloorColorCo()
-	{
-		meshRen.material = successMat;
-		yield return new WaitForSeconds(0.1f);
-		meshRen.material = originMat;
 	}
 }
