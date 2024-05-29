@@ -26,7 +26,7 @@ public class CarInputAI : Agent
 		carController.StopMovement();
 		carController.transform.rotation = Quaternion.Euler(0, 0, 0);
 		currentAngle = 0f;
-		transform.localPosition = Vector3.up;
+		//transform.localPosition = Vector3.up;
 	}
 
 	public override void CollectObservations(VectorSensor sensor)

@@ -13,6 +13,10 @@ public class CarController : MonoBehaviour
 	[SerializeField] private float drag = 0.2f;
 	[Range(0f, 1f)][SerializeField] private float dragAcceleration = 0.5f;
 
+	[Header("Gravity")]
+	[SerializeField] private float gravity = -9.81f;
+	[SerializeField] private float groundRayDistance = 1f;
+
 	[Header("Turn")]
 	[SerializeField] private float turnRate;
 
@@ -37,6 +41,7 @@ public class CarController : MonoBehaviour
 	private void FixedUpdate()
 	{
 		Turn();
+		CheckGround();
 		Move();
 	}
 
@@ -79,7 +84,6 @@ public class CarController : MonoBehaviour
 				float n = Mathf.Abs(1 / Vector3.Dot(transform.forward, lerpDir));
 
 				velocity = lerpDir * speed * n;
-
 			}
 			rigid.velocity = velocity;
 		}
@@ -137,6 +141,21 @@ public class CarController : MonoBehaviour
 	}
 	#endregion
 
+	#region Ground
+	private void CheckGround()
+	{
+		Ray ray = new Ray(transform.position, Vector3.down);
+		if (Physics.Raycast(ray, out RaycastHit hitInfo, groundRayDistance))
+		{
+			print("Grounded");
+		}
+		else
+		{
+			print("UnGrounded");
+		}
+	}
+	#endregion
+
 	#region Turn
 	public void SetAngleDesire(float angleInput)
 	{
@@ -147,14 +166,15 @@ public class CarController : MonoBehaviour
 	{
 		float rotY = transform.eulerAngles.y;
 		rotY = rotY > 180 ? rotY - 360f : rotY;
-		float sign = Mathf.Sign(Mathf.DeltaAngle(rotY, inputAngle));
-		float lerpAngle = rotY + sign * turnRate * Time.fixedDeltaTime;
-		if (sign != Mathf.Sign(inputAngle - lerpAngle))
+		float delta = Mathf.DeltaAngle(rotY, inputAngle);
+		float sign = Mathf.Sign(delta);
+		float linearAngle = rotY + sign * turnRate * Time.fixedDeltaTime;
+		if (sign != Mathf.Sign(inputAngle - linearAngle) && Mathf.Abs(Mathf.DeltaAngle(rotY, inputAngle)) < 1f)
 		{
-			lerpAngle = inputAngle;
+			linearAngle = inputAngle;
 		}
 
-		transform.rotation = Quaternion.Euler(0, lerpAngle, 0);
+		transform.rotation = Quaternion.Euler(0, linearAngle, 0);
 	}
 	#endregion
 
