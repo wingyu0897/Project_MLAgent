@@ -200,13 +200,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4437e99218e4ce94788398de9e54fc16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: -9.81
   maxSpeed: 50
   acceleration: 40
   accelThresholdAngle: 5
   forwardLerpValue: 0.02
   drag: 0.5
   dragAcceleration: 0.8
+  gravity: -9.81
+  groundRayDistance: 1.1
   turnRate: 120
   bounceSpeed: 20
   bouncePower: 10

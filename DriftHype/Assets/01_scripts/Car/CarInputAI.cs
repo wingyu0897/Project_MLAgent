@@ -1,11 +1,10 @@
-using System.Collections;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 
 [RequireComponent(typeof(CarController))]
-public class CarInputAI : Agent
+public class CarInputAI : Agent, ICarInput
 {
 	private CarController carController;
 	private float currentAngle;
@@ -13,12 +12,10 @@ public class CarInputAI : Agent
 	[Header("Controll")]
 	[SerializeField] private float handleSensitive = 360f;
 
-	[Header("Navigate")]
-	[SerializeField] private Transform target;
-
 	public override void Initialize()
 	{
 		carController = GetComponent<CarController>();
+		carController.input = this;
 	}
 
 	public override void OnEpisodeBegin()
@@ -31,8 +28,8 @@ public class CarInputAI : Agent
 
 	public override void CollectObservations(VectorSensor sensor)
 	{
-		sensor.AddObservation(Vector3.Distance(transform.position, target.position));
-		sensor.AddObservation(Vector3.Dot((target.position - transform.position).normalized, transform.forward));
+		sensor.AddObservation(Vector3.Distance(transform.position, carController.nextTarget.transform.position));
+		sensor.AddObservation(Vector3.Dot((carController.nextTarget.transform.position - transform.position).normalized, transform.forward));
 	}
 
 	public override void OnActionReceived(ActionBuffers actions)
@@ -69,5 +66,15 @@ public class CarInputAI : Agent
 			AddReward(10f);
 			EndEpisode();
 		}
+	}
+
+	public void EnableInput()
+	{
+		//
+	}
+
+	public void DisableInput()
+	{
+		//
 	}
 }

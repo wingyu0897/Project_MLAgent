@@ -1,6 +1,7 @@
+using System;
 using UnityEngine;
 
-public class CarController : MonoBehaviour
+public class CarController : MonoBehaviour, ICar
 {
 	[Header("Movement")]
 	[SerializeField] private float maxSpeed;
@@ -26,11 +27,17 @@ public class CarController : MonoBehaviour
 
 	[Header("References")]
 	private Rigidbody rigid;
+	[HideInInspector] public ICarInput input;
 
 	[Header("Flags")]
+	private bool move = false;
 	private float inputAngle;
 	private float beforeSpeed;
+	private float gravityVelocity;
 	private Vector3 velocity;
+
+	public GameObject nextTarget { get; set; }
+	public event Action<ICar, GameObject> OnTriggerCheckPoint;
 
 	private void Awake()
 	{
@@ -41,13 +48,15 @@ public class CarController : MonoBehaviour
 	private void FixedUpdate()
 	{
 		Turn();
-		CheckGround();
+		//CheckGround();
 		Move();
 	}
 
 	#region Movement
 	private void Move()
 	{
+		if (!move) return;
+
 		velocity = Vector3.zero;
 
 		float inputAngleRad = Mathf.Deg2Rad * (-inputAngle + 90f);
@@ -134,6 +143,12 @@ public class CarController : MonoBehaviour
 		return calcSpeed;
 	}
 
+	public void SetMove(bool enable)
+	{
+		move = enable;
+		if (!move) StopMovement();
+	}
+
 	public void StopMovement()
 	{
 		rigid.velocity = Vector3.zero;
@@ -145,13 +160,16 @@ public class CarController : MonoBehaviour
 	private void CheckGround()
 	{
 		Ray ray = new Ray(transform.position, Vector3.down);
-		if (Physics.Raycast(ray, out RaycastHit hitInfo, groundRayDistance))
+		bool isHit = Physics.Raycast(ray, out RaycastHit hitInfo, groundRayDistance);
+		if (isHit && hitInfo.distance <= (1f - gravityVelocity * Time.fixedDeltaTime))
 		{
-			print("Grounded");
+			gravityVelocity = 0f;
+			transform.position = new Vector3(transform.position.x, hitInfo.point.y + 1f, transform.position.z);
 		}
 		else
 		{
-			print("UnGrounded");
+			gravityVelocity += gravity * Time.fixedDeltaTime;
+			transform.position += Vector3.one * gravityVelocity * Time.fixedDeltaTime;
 		}
 	}
 	#endregion
@@ -190,6 +208,14 @@ public class CarController : MonoBehaviour
 			{
 				rigid.AddForce(point.normal * bouncePower, ForceMode.Impulse);
 			}
+		}
+	}
+
+	private void OnTriggerEnter(Collider other)
+	{
+		if (other.gameObject.CompareTag("Target"))
+		{
+			OnTriggerCheckPoint?.Invoke(this, other.gameObject);
 		}
 	}
 	#endregion
