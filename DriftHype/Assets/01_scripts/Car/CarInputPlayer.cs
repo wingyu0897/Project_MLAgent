@@ -20,6 +20,8 @@ public class CarInputPlayer : MonoBehaviour, ICarInput
 	{
 		controller = GetComponent<CarController>();
 		controller.input = this;
+		controller.IsPlayer = true;
+		handleUI = FindObjectOfType<HandleUI>();
 	}
 
 	private void InputAngle(float angleInput)

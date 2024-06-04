@@ -28,8 +28,8 @@ public class CarInputAI : Agent, ICarInput
 
 	public override void CollectObservations(VectorSensor sensor)
 	{
-		sensor.AddObservation(Vector3.Distance(transform.position, carController.nextTarget.transform.position));
-		sensor.AddObservation(Vector3.Dot((carController.nextTarget.transform.position - transform.position).normalized, transform.forward));
+		sensor.AddObservation(Vector3.Distance(transform.position, carController.NextTarget.transform.position));
+		sensor.AddObservation(Vector3.Dot((carController.NextTarget.transform.position - transform.position).normalized, transform.forward));
 	}
 
 	public override void OnActionReceived(ActionBuffers actions)

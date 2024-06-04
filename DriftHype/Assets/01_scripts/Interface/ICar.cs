@@ -3,7 +3,8 @@ using UnityEngine;
 
 public interface ICar
 {
-	public GameObject nextTarget { get; set; }
+	public GameObject NextTarget { get; set; }
+	public bool IsPlayer { get; set; }
 
 	public event Action<ICar, GameObject> OnTriggerCheckPoint;
 }

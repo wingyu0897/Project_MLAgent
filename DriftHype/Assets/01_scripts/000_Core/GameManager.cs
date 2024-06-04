@@ -1,17 +1,14 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager : MonoSingleton<GameManager>
 {
-	public static GameManager Instance;
-
     [Header("Test")]
     [SerializeField] private Map testMap;
     [SerializeField] private CarController car;
 
 	private void Awake()
 	{
-		Instance = this;
 		DontDestroyOnLoad(gameObject);
 		SceneManager.LoadScene("Menu");
 	}

@@ -36,7 +36,9 @@ public class CarController : MonoBehaviour, ICar
 	private float gravityVelocity;
 	private Vector3 velocity;
 
-	public GameObject nextTarget { get; set; }
+	public GameObject NextTarget { get; set; }
+	public bool IsPlayer { get; set; }
+
 	public event Action<ICar, GameObject> OnTriggerCheckPoint;
 
 	private void Awake()
@@ -47,6 +49,7 @@ public class CarController : MonoBehaviour, ICar
 
 	private void FixedUpdate()
 	{
+		if (!move) return;
 		Turn();
 		//CheckGround();
 		Move();
@@ -55,8 +58,6 @@ public class CarController : MonoBehaviour, ICar
 	#region Movement
 	private void Move()
 	{
-		if (!move) return;
-
 		velocity = Vector3.zero;
 
 		float inputAngleRad = Mathf.Deg2Rad * (-inputAngle + 90f);

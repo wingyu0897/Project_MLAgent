@@ -1,5 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Map : MonoBehaviour
@@ -8,6 +8,7 @@ public class Map : MonoBehaviour
 	private Transform startPoint;
 
 	private List<CarController> cars = new List<CarController>();
+	[SerializeField] private TextMeshPro countText;
 
 	private void Awake()
 	{
@@ -24,45 +25,53 @@ public class Map : MonoBehaviour
 		}
 	}
 
+	const float DistanceBetweenCars = 10f;
+
 	public void Initialize(params CarController[] cars)
 	{
-
-		foreach (CarController car in cars)
+		float area = DistanceBetweenCars * (cars.Length - 1);
+		area = -area + area / 2f;
+		for (int i = 0; i < cars.Length; ++i)
 		{
-			car.transform.position = startPoint.position + Vector3.up;
-			car.nextTarget = checkPoints[0];
-			car.OnTriggerCheckPoint += SetPoint;
-			this.cars.Add(car);
+			cars[i].transform.position = startPoint.position + Vector3.up + startPoint.right * (area + i * DistanceBetweenCars);
+			cars[i].transform.rotation = Quaternion.Euler(0, startPoint.eulerAngles.y, 0);
+
+			cars[i].NextTarget = checkPoints[0];
+			cars[i].OnTriggerCheckPoint += SetPoint;
+			this.cars.Add(cars[i]);
 		}
 	}
 
 	private void SetPoint(ICar car, GameObject point)
 	{
-		if (car.nextTarget.Equals(point))
+		if (car.NextTarget.Equals(point))
 		{
-			print("Right");
 			if (point == checkPoints[checkPoints.Count - 1])
 			{
-				foreach (CarController elem in cars)
+				GameSceneManager.Instance.ChangeState(GAME_STATE.END);
+				if (car.IsPlayer)
 				{
-					elem.SetMove(false);
-					elem.input.DisableInput();
+					GameSceneManager.Instance.isPlayerWin = true;
 				}
-				print("End");
 			}
 			else
 			{
 				GameObject nextTarget = checkPoints[checkPoints.IndexOf(point) + 1];
-				car.nextTarget = nextTarget;
+				car.NextTarget = nextTarget;
 			}
 		}
+	}
+
+	public void SetCountText(string txt)
+	{
+		countText.text = txt;
 	}
 
 	private void EndGame()
 	{
 		foreach (ICar car in cars)
 		{
-			car.nextTarget = null;
+			car.NextTarget = null;
 		}
 	}
 }
