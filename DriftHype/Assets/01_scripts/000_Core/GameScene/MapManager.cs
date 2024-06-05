@@ -12,7 +12,6 @@ public class MapManager : MonoBehaviour
 	private Map map;
 
 	private bool isRunning = false;
-	private float racingTime = 0f;
 
 	private void Awake()
 	{
@@ -24,7 +23,7 @@ public class MapManager : MonoBehaviour
 	{
 		playerCar = Instantiate(playerCar);
 		aiCar = Instantiate(aiCar);
-		map = Instantiate(maps[Random.Range(0, maps.Count - 1)]);
+		map = Instantiate(maps[Random.Range(0, maps.Count)]);
 
 		map.Initialize(playerCar, aiCar);
 		followCam.target = playerCar.transform;
@@ -61,7 +60,7 @@ public class MapManager : MonoBehaviour
 	private void Update()
 	{
 		if (isRunning)
-			racingTime += Time.deltaTime;
+			GameSceneManager.Instance.racingTime += Time.deltaTime;
 	}
 
 	private IEnumerator BeginCounting()

@@ -11,7 +11,7 @@ public class GameSceneManager : MonoSingleton<GameSceneManager>
 {
 	private GAME_STATE currentState;
 	public bool isPlayerWin = false;
-	public float racingTime = 0f;
+	public float racingTime = 0f; 
 
 	public event Action<GAME_STATE> OnStateChanged;
 

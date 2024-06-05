@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class Map : MonoBehaviour
 {
-    private List<GameObject> checkPoints;
-	private Transform startPoint;
+	[SerializeField] private Transform checkPointParent;
+	private List<GameObject> checkPoints;
+	[SerializeField] private Transform startPoint;
 
 	private List<CarController> cars = new List<CarController>();
 	[SerializeField] private TextMeshPro countText;
 
 	private void Awake()
 	{
-		startPoint = transform.Find("StartPoint");
-
 		checkPoints = new List<GameObject>();
-		Transform checkPointParent = transform.Find("CheckPoints");
 		if (checkPointParent)
 		{
 			for (int i = 0; i < checkPointParent.childCount; ++i)
@@ -48,11 +46,11 @@ public class Map : MonoBehaviour
 		{
 			if (point == checkPoints[checkPoints.Count - 1])
 			{
-				GameSceneManager.Instance.ChangeState(GAME_STATE.END);
-				if (car.IsPlayer)
+				if (car.IsPlayer == true)
 				{
 					GameSceneManager.Instance.isPlayerWin = true;
 				}
+				GameSceneManager.Instance.ChangeState(GAME_STATE.END);
 			}
 			else
 			{
@@ -65,13 +63,5 @@ public class Map : MonoBehaviour
 	public void SetCountText(string txt)
 	{
 		countText.text = txt;
-	}
-
-	private void EndGame()
-	{
-		foreach (ICar car in cars)
-		{
-			car.NextTarget = null;
-		}
 	}
 }

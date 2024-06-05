@@ -204,10 +204,10 @@ MonoBehaviour:
   acceleration: 40
   accelThresholdAngle: 5
   forwardLerpValue: 0.02
-  drag: 0.5
+  drag: 0.7
   dragAcceleration: 0.8
   gravity: -9.81
   groundRayDistance: 1.1
-  turnRate: 120
+  turnRate: 270
   bounceSpeed: 20
   bouncePower: 10

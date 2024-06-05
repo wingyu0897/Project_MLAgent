@@ -47,7 +47,7 @@ public class GameSceneUI : MonoBehaviour
 	private void EndUI()
 	{
 		winnerTxt.text = GameSceneManager.Instance.isPlayerWin ? "You Win" : "AI Win";
-		raceTimeTxt.text = String.Format("00:00", GameSceneManager.Instance.racingTime);
+		raceTimeTxt.text = String.Format("{0:f2}s", GameSceneManager.Instance.racingTime);
 	}
 
 	private void SetVisibleCanvasGroup(CanvasGroup cg, bool visible)
