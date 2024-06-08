@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -10,6 +11,9 @@ public class Map : MonoBehaviour
 
 	private List<CarController> cars = new List<CarController>();
 	[SerializeField] private TextMeshPro countText;
+
+	public event Action OnGameEnd;
+	public event Action<ICar, bool> IsRightCheckPoint;
 
 	private void Awake()
 	{
@@ -34,28 +38,39 @@ public class Map : MonoBehaviour
 			cars[i].transform.position = startPoint.position + Vector3.up + startPoint.right * (area + i * DistanceBetweenCars);
 			cars[i].transform.rotation = Quaternion.Euler(0, startPoint.eulerAngles.y, 0);
 
-			cars[i].NextTarget = checkPoints[0];
+			cars[i].SetNextTarget(checkPoints[0]);
 			cars[i].OnTriggerCheckPoint += SetPoint;
 			this.cars.Add(cars[i]);
 		}
 	}
 
+	private void OnDestroy()
+	{
+		for (int i = 0; i < cars.Count; ++i)
+		{
+			cars[i].OnTriggerCheckPoint -= SetPoint;
+		}
+	}
+
 	private void SetPoint(ICar car, GameObject point)
 	{
-		if (car.NextTarget.Equals(point))
+		bool isRightPoint = car.NextTarget.Equals(point);
+		IsRightCheckPoint?.Invoke(car, isRightPoint);
+		if (isRightPoint)
 		{
-			if (point == checkPoints[checkPoints.Count - 1])
+			if (point == checkPoints[checkPoints.Count - 1]) // 마지막 체크포인트에 도달했다면 게임 종료
 			{
-				if (car.IsPlayer == true)
+				OnGameEnd?.Invoke();
+				if (GameSceneManager.Instance is not null)
 				{
-					GameSceneManager.Instance.isPlayerWin = true;
+					GameSceneManager.Instance.isPlayerWin = car.IsPlayer;
+					GameSceneManager.Instance.ChangeState(GAME_STATE.END);
 				}
-				GameSceneManager.Instance.ChangeState(GAME_STATE.END);
 			}
 			else
 			{
 				GameObject nextTarget = checkPoints[checkPoints.IndexOf(point) + 1];
-				car.NextTarget = nextTarget;
+				car.SetNextTarget(nextTarget);
 			}
 		}
 	}

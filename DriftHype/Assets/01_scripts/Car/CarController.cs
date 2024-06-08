@@ -36,6 +36,8 @@ public class CarController : MonoBehaviour, ICar
 	private float gravityVelocity;
 	private Vector3 velocity;
 
+	[HideInInspector]
+	public Transform nextTargetTrm;
 	public GameObject NextTarget { get; set; }
 	public bool IsPlayer { get; set; }
 
@@ -45,6 +47,8 @@ public class CarController : MonoBehaviour, ICar
 	{
 		rigid = GetComponent<Rigidbody>();
 		accelThresholdAngle *= Mathf.Deg2Rad;
+		nextTargetTrm = new GameObject("NextTargetPosition").transform;
+		nextTargetTrm.SetParent(transform.parent);
 	}
 
 	private void FixedUpdate()
@@ -53,6 +57,13 @@ public class CarController : MonoBehaviour, ICar
 		Turn();
 		//CheckGround();
 		Move();
+	}
+
+	public void SetNextTarget(GameObject nextTarget)
+	{
+		NextTarget = nextTarget;
+		if (NextTarget != null)
+			nextTargetTrm.position = NextTarget.transform.position;
 	}
 
 	#region Movement

@@ -6,6 +6,8 @@ using UnityEngine;
 [RequireComponent(typeof(CarController))]
 public class CarInputAI : Agent, ICarInput
 {
+	[SerializeField] AIMapManager mapManager;
+
 	private CarController carController;
 	private float currentAngle;
 
@@ -18,18 +20,30 @@ public class CarInputAI : Agent, ICarInput
 		carController.input = this;
 	}
 
+	private void OnTriggerCheck(ICar car, GameObject checkPoint)
+	{
+		AddReward(1f);
+	}
+
 	public override void OnEpisodeBegin()
 	{
 		carController.StopMovement();
 		carController.transform.rotation = Quaternion.Euler(0, 0, 0);
+		carController.SetMove(true);
 		currentAngle = 0f;
-		//transform.localPosition = Vector3.up;
+		Map generatedMap = mapManager.GenerateMap(carController);
+		generatedMap.OnGameEnd += () =>
+		{
+			AddReward(100f);
+			EndEpisode();
+		};
+		generatedMap.IsRightCheckPoint += (car, isRight) => AddReward((isRight ? 10f : -10f));
 	}
 
 	public override void CollectObservations(VectorSensor sensor)
 	{
-		sensor.AddObservation(Vector3.Distance(transform.position, carController.NextTarget.transform.position));
-		sensor.AddObservation(Vector3.Dot((carController.NextTarget.transform.position - transform.position).normalized, transform.forward));
+		sensor.AddObservation(Vector3.Distance(transform.position, carController.nextTargetTrm.position));
+		sensor.AddObservation(Vector3.Dot((carController.nextTargetTrm.position - transform.position).normalized, transform.forward));
 	}
 
 	public override void OnActionReceived(ActionBuffers actions)
@@ -44,10 +58,20 @@ public class CarInputAI : Agent, ICarInput
 			_ => currentAngle,
 		};
 
+		if (angle > 0)
+		{
+			AddReward(-0.01f);
+		}
+
 
 		carController.SetAngleDesire(currentAngle);
 
-		AddReward(-1f / StepCount);
+		AddReward(-0.01f);
+	}
+
+	public override void Heuristic(in ActionBuffers actionsOut)
+	{
+		
 	}
 
 	private void OnCollisionEnter(Collision collision)
@@ -55,16 +79,6 @@ public class CarInputAI : Agent, ICarInput
 		if (collision.gameObject.CompareTag("Wall"))
 		{
 			AddReward(-0.1f);
-			//EndEpisode();
-		}
-	}
-
-	private void OnTriggerEnter(Collider other)
-	{
-		if (other.gameObject.CompareTag("Target"))
-		{
-			AddReward(10f);
-			EndEpisode();
 		}
 	}
 
