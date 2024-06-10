@@ -6,10 +6,11 @@ using UnityEngine;
 [RequireComponent(typeof(CarController))]
 public class CarInputAI : Agent, ICarInput
 {
-	[SerializeField] AIMapManager mapManager;
+	//[SerializeField] AIMapManager mapManager;
 
 	private CarController carController;
 	private float currentAngle;
+	private bool isMove = false;
 
 	[Header("Controll")]
 	[SerializeField] private float handleSensitive = 360f;
@@ -20,24 +21,19 @@ public class CarInputAI : Agent, ICarInput
 		carController.input = this;
 	}
 
-	private void OnTriggerCheck(ICar car, GameObject checkPoint)
-	{
-		AddReward(1f);
-	}
-
 	public override void OnEpisodeBegin()
 	{
-		carController.StopMovement();
+		carController?.StopMovement();
 		carController.transform.rotation = Quaternion.Euler(0, 0, 0);
-		carController.SetMove(true);
+		//carController?.SetMove(true);
 		currentAngle = 0f;
-		Map generatedMap = mapManager.GenerateMap(carController);
-		generatedMap.OnGameEnd += () =>
-		{
-			AddReward(100f);
-			EndEpisode();
-		};
-		generatedMap.IsRightCheckPoint += (car, isRight) => AddReward((isRight ? 10f : -10f));
+		//Map generatedMap = mapManager.GenerateMap(carController);
+		//generatedMap.OnGameEnd += () =>
+		//{
+		//	AddReward(100f);
+		//	EndEpisode();
+		//};
+		//generatedMap.IsRightCheckPoint += (car, isRight) => AddReward((isRight ? 10f : -10f));
 	}
 
 	public override void CollectObservations(VectorSensor sensor)
@@ -48,6 +44,8 @@ public class CarInputAI : Agent, ICarInput
 
 	public override void OnActionReceived(ActionBuffers actions)
 	{
+		if (!isMove) return;
+
 		var DiscreteActions = actions.DiscreteActions;
 		int angle = DiscreteActions[0];
 
@@ -84,11 +82,11 @@ public class CarInputAI : Agent, ICarInput
 
 	public void EnableInput()
 	{
-		//
+		isMove = true;
 	}
 
 	public void DisableInput()
 	{
-		//
+		isMove = false;
 	}
 }

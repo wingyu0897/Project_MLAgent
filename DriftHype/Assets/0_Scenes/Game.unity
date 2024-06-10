@@ -1023,8 +1023,9 @@ MonoBehaviour:
   maps:
   - {fileID: 7031635853129157729, guid: 44f1c50129496cc40ada186367dd1754, type: 3}
   - {fileID: 4423829899445893621, guid: 97fff75b07e82d94f8ee05f5595ed1d3, type: 3}
+  - {fileID: 4423829899445893621, guid: cb74a45f3ac4fc54fadfd625a3673df2, type: 3}
   playerCar: {fileID: 3971064980142064629, guid: d3db5b462baa96c428444be721c9df95, type: 3}
-  aiCar: {fileID: 3773687015387171796, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
+  aiCar: {fileID: 1936163081902583586, guid: 2184206bdd4af834a91d5335bc8dc909, type: 3}
   followCam: {fileID: 963194229}
 --- !u!114 &1023740552
 MonoBehaviour:

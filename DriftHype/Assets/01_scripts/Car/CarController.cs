@@ -163,8 +163,11 @@ public class CarController : MonoBehaviour, ICar
 
 	public void StopMovement()
 	{
-		rigid.velocity = Vector3.zero;
-		rigid.angularVelocity = Vector3.zero;
+		if (rigid)
+		{
+			rigid.velocity = Vector3.zero;
+			rigid.angularVelocity = Vector3.zero;
+		}
 	}
 	#endregion
 
