@@ -35,7 +35,7 @@ public class Map : MonoBehaviour
 		area = -area + area / 2f;
 		for (int i = 0; i < cars.Length; ++i)
 		{
-			cars[i].transform.position = startPoint.position + Vector3.up + startPoint.right * (area + i * DistanceBetweenCars);
+			cars[i].transform.position = startPoint.position + startPoint.right * (area + i * DistanceBetweenCars);
 			cars[i].transform.rotation = Quaternion.Euler(0, startPoint.eulerAngles.y, 0);
 
 			cars[i].SetNextTarget(checkPoints[0]);

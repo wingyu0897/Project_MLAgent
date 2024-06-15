@@ -28,6 +28,7 @@ public class CarController : MonoBehaviour, ICar
 	[Header("References")]
 	private Rigidbody rigid;
 	[HideInInspector] public ICarInput input;
+	private CarVisual visual;
 
 	[Header("Flags")]
 	private bool move = false;
@@ -46,6 +47,8 @@ public class CarController : MonoBehaviour, ICar
 	private void Awake()
 	{
 		rigid = GetComponent<Rigidbody>();
+		visual = GetComponent<CarVisual>();
+
 		accelThresholdAngle *= Mathf.Deg2Rad;
 		nextTargetTrm = new GameObject("NextTargetPosition").transform;
 		nextTargetTrm.SetParent(transform.parent);
@@ -79,7 +82,7 @@ public class CarController : MonoBehaviour, ICar
 		// 현재 멈추어 있거나, angleDot이 일정 각도 이하일 때
 		if (rigid.velocity == Vector3.zero || (1 - Mathf.Abs(angleDot)) < accelThresholdAngle) // 가속
 		{
-			if (rigid.velocity == Vector3.zero)
+			if (rigid.velocity == Vector3.zero) // 멈춰 있다면
 			{
 				velocity = transform.forward * CalculatedSpeed();
 			}
@@ -101,10 +104,13 @@ public class CarController : MonoBehaviour, ICar
 					lerpAngle = Mathf.Lerp(velocityAngle, carDirAngle, forwardLerpValue);
 
 				Vector3 lerpDir = new Vector3(Mathf.Cos(lerpAngle), 0, Mathf.Sin(lerpAngle)).normalized;
-				float speed = (cos <= 0 ? -CalculatedSpeed() : CalculatedSpeed());
+				float speed = cos <= 0 ? -CalculatedSpeed() : CalculatedSpeed();
 				float n = Mathf.Abs(1 / Vector3.Dot(transform.forward, lerpDir));
 
 				velocity = lerpDir * speed * n;
+
+				// visual
+				visual?.SetFrontWheels(desireDir);
 			}
 			rigid.velocity = velocity;
 		}
@@ -118,6 +124,9 @@ public class CarController : MonoBehaviour, ICar
 			Vector3 v = transform.forward * (CalculatedSpeed(true) - beforeSpeed);
 
 			rigid.velocity = velocity + v;
+
+			// visual
+			visual?.SetFrontWheels(rigid.velocity);
 
 #if UNITY_EDITOR
 			Debug.DrawRay(transform.position, dragDir * 50f, Color.magenta); // Drag의 방향
@@ -202,7 +211,7 @@ public class CarController : MonoBehaviour, ICar
 		float delta = Mathf.DeltaAngle(rotY, inputAngle);
 		float sign = Mathf.Sign(delta);
 		float linearAngle = rotY + sign * turnRate * Time.fixedDeltaTime;
-		if (sign != Mathf.Sign(inputAngle - linearAngle) && Mathf.Abs(Mathf.DeltaAngle(rotY, inputAngle)) < 1f)
+		if (Mathf.Abs(delta) < turnRate * Time.fixedDeltaTime)
 		{
 			linearAngle = inputAngle;
 		}

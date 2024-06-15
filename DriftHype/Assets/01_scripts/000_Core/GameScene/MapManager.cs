@@ -13,7 +13,7 @@ public class MapManager : MonoBehaviour
 
 	private bool isRunning = false;
 
-	private void Awake()
+	private void Start()
 	{
 		SetupGame();
 		GameSceneManager.Instance.OnStateChanged += CheckState;

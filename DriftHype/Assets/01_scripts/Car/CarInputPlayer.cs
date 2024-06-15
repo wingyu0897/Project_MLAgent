@@ -22,6 +22,7 @@ public class CarInputPlayer : MonoBehaviour, ICarInput
 		controller.input = this;
 		controller.IsPlayer = true;
 		handleUI = FindObjectOfType<HandleUI>();
+		GetComponent<CarVisual>().SetVisual(GameManager.Instance.PlayerVisual);
 	}
 
 	private void InputAngle(float angleInput)

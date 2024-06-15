@@ -9,6 +9,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3773687015387171796, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
+      propertyPath: drag
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3773687015387171796, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
       propertyPath: maxSpeed
       value: 53
       objectReference: {fileID: 0}

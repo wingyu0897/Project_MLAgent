@@ -3,9 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-    [Header("Test")]
-    [SerializeField] private Map testMap;
-    [SerializeField] private CarController car;
+	[SerializeField] private GameObject playerVisual;
+	public GameObject PlayerVisual => playerVisual;
 
 	private void Awake()
 	{

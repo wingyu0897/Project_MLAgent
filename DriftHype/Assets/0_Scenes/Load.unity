@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -152,8 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41256e6517f6444fbfc1fe5967d2dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testMap: {fileID: 4423829899445893621, guid: 97fff75b07e82d94f8ee05f5595ed1d3, type: 3}
-  car: {fileID: 3971064980142064629, guid: d3db5b462baa96c428444be721c9df95, type: 3}
+  playerVisual: {fileID: 789013819917045832, guid: e69e3629dba637a4490703cae7fa18d6, type: 3}
 --- !u!4 &1080774828
 Transform:
   m_ObjectHideFlags: 0
