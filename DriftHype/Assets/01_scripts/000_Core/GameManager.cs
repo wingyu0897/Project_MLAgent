@@ -3,8 +3,8 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
-	[SerializeField] private GameObject playerVisual;
-	public GameObject PlayerVisual => playerVisual;
+	public GameObject PlayerVisual { get; set; }
+	[HideInInspector] public int selectedCarIndex = 0;
 
 	private void Awake()
 	{

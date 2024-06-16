@@ -154,7 +154,16 @@ MonoBehaviour:
   MaxStep: 5000
   handleSensitive: 180
   visuals:
+  - {fileID: 3322662670493636647, guid: ec1607fbda858c742bd65a4ec0dacad8, type: 3}
+  - {fileID: 4295013023377165074, guid: 2cc890418fb3a20488adfa1a9f70c8de, type: 3}
+  - {fileID: 4210146521834353947, guid: 5b531d95967f01f43aff35f6a6929bec, type: 3}
+  - {fileID: 48130115515003279, guid: c668f11ce4ed2944fbf6da13279a5f21, type: 3}
+  - {fileID: 8826183122676768447, guid: c293138273d16b8439a247b73770da2f, type: 3}
   - {fileID: 789013819917045832, guid: e69e3629dba637a4490703cae7fa18d6, type: 3}
+  - {fileID: 1819619277610622004, guid: 7e405a2dd1751824c880505988057cfe, type: 3}
+  - {fileID: 6585822359640394755, guid: d59da9e86f4088b409559f383af78b54, type: 3}
+  - {fileID: 7514388467761173912, guid: 0868d57316747d4488d1ffeb5f20e190, type: 3}
+  - {fileID: 4446727588029087367, guid: f6a62f8627446d24d87df8ea7a355cd1, type: 3}
 --- !u!114 &8608793468465837326
 MonoBehaviour:
   m_ObjectHideFlags: 0

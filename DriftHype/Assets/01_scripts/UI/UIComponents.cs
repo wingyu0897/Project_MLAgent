@@ -1,27 +1,36 @@
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIComponents : MonoSingleton<UIComponents>
 {
-	private Dictionary<string, UIBehaviour[]> uiComponents;
+	private Dictionary<string, UIBehaviour[]> _uiComponents;
+	private Transform[] _objects;
 
 	private void Awake()
 	{
-		uiComponents = new Dictionary<string, UIBehaviour[]>();
+		_objects = GetComponentsInChildren<Transform>(true);
 
-		Image[] images = GetComponentsInChildren<Image>();
-		uiComponents.Add("Image", images);
-		TextMeshProUGUI[] texts = GetComponentsInChildren<TextMeshProUGUI>();
-		uiComponents.Add("TextMeshProUGUI", texts);
-		Button[] buttons = GetComponentsInChildren<Button>();
-		uiComponents.Add("Button", buttons);
+		_uiComponents = new Dictionary<string, UIBehaviour[]>();
+
+		GetUIComponents<Image>();
+		GetUIComponents<TextMeshProUGUI>();
+		GetUIComponents<Button>();
+		GetUIComponents<VerticalLayoutGroup>();
+		GetUIComponents<Scrollbar>();
 	}
 
-	public T FindUIElement<T>(string name) where T : UIBehaviour
+	private void GetUIComponents<T>() where T : UIBehaviour
 	{
-		if (uiComponents.TryGetValue(typeof(T).Name, out UIBehaviour[] arr))
+		T[] components = GetComponentsInChildren<T>(true);
+		_uiComponents.Add(typeof(T).Name, components);
+	}
+
+	public T GetUIElement<T>(string name) where T : UIBehaviour
+	{
+		if (_uiComponents.TryGetValue(typeof(T).Name, out UIBehaviour[] arr))
 		{
 			foreach (UIBehaviour elem in arr)
 			{
@@ -29,6 +38,19 @@ public class UIComponents : MonoSingleton<UIComponents>
 				{
 					return elem as T; 
 				}
+			}
+		}
+
+		return null;
+	}
+
+	public GameObject GetObject(string name)
+	{
+		foreach (Transform obj in _objects)
+		{
+			if (obj.gameObject.name.Equals(name))
+			{
+				return obj.gameObject;
 			}
 		}
 
