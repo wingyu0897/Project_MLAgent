@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -15,10 +16,16 @@ public class CarInputAI : Agent, ICarInput
 	[Header("Controll")]
 	[SerializeField] private float handleSensitive = 360f;
 
+	[Header("Visual")]
+	[SerializeField] private List<GameObject> visuals;
+
 	public override void Initialize()
 	{
 		carController = GetComponent<CarController>();
 		carController.input = this;
+
+		GameObject visual = visuals[Random.Range(0, visuals.Count)];
+		GetComponent<CarVisual>()?.SetVisual(visual);
 	}
 
 	public override void OnEpisodeBegin()

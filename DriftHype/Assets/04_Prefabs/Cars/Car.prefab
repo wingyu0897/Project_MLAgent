@@ -208,7 +208,7 @@ MonoBehaviour:
   dragAcceleration: 0.8
   gravity: -9.81
   groundRayDistance: 1.1
-  turnRate: 230
+  turnRate: 160
   bounceSpeed: 20
   bouncePower: 10
   nextTargetTrm: {fileID: 0}
