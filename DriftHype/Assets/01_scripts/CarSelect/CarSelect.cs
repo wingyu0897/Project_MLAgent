@@ -40,7 +40,7 @@ public class CarSelect : MonoBehaviour
 		for (int i = 0; i < cars.Count; ++i)
 			_pos[cars.Count - 1 - i] = _distance * i;
 
-		RectTransform content = UIComponents.Instance.GetObject("Content").GetComponent<RectTransform>();
+		RectTransform content = UIComponents.Instance.GetComponent<Transform>("Content").GetComponent<RectTransform>();
 		Transform carParent = transform.GetChild(0);
 		for (int i = 0; i < cars.Count; ++i)
 		{

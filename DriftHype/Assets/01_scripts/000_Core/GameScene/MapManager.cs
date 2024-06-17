@@ -60,7 +60,7 @@ public class MapManager : MonoBehaviour
 	private void Update()
 	{
 		if (isRunning)
-			GameSceneManager.Instance.racingTime += Time.deltaTime;
+			GameSceneManager.Instance.RacingTime += Time.deltaTime;
 	}
 
 	private IEnumerator BeginCounting()

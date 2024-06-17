@@ -9,9 +9,11 @@ public enum GAME_STATE
 
 public class GameSceneManager : MonoSingleton<GameSceneManager>
 {
-	private GAME_STATE currentState;
-	public bool isPlayerWin = false;
-	public float racingTime = 0f; 
+	private GAME_STATE _currentState;
+	public GAME_STATE CurrentState => _currentState;
+
+	public bool IsPlayerWin = false;
+	public float RacingTime = 0f; 
 
 	public event Action<GAME_STATE> OnStateChanged;
 
@@ -22,7 +24,7 @@ public class GameSceneManager : MonoSingleton<GameSceneManager>
 
 	public void ChangeState(GAME_STATE newState)
 	{
-		currentState = newState;
-		OnStateChanged?.Invoke(currentState);
+		_currentState = newState;
+		OnStateChanged?.Invoke(_currentState);
 	}
 }

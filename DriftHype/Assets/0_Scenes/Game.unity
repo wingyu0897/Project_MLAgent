@@ -1039,8 +1039,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 652bf340ef234204a86214eb85ae027f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isPlayerWin: 0
-  racingTime: 0
+  IsPlayerWin: 0
+  RacingTime: 0
 --- !u!1 &1213252014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1514,6 +1514,7 @@ GameObject:
   - component: {fileID: 1711416364}
   - component: {fileID: 1711416363}
   - component: {fileID: 1711416367}
+  - component: {fileID: 1711416368}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -1622,6 +1623,18 @@ MonoBehaviour:
   menuBtn: {fileID: 1279967908}
   winnerTxt: {fileID: 74551152}
   raceTimeTxt: {fileID: 397147651}
+--- !u!114 &1711416368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1711416362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e259a4dd1206af45bd8a1020c5c9dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1776321808
 GameObject:
   m_ObjectHideFlags: 0

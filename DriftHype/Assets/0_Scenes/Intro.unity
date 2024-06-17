@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b41256e6517f6444fbfc1fe5967d2dfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerVisual: {fileID: 789013819917045832, guid: e69e3629dba637a4490703cae7fa18d6, type: 3}
+  selectedCarIndex: 0
 --- !u!4 &1080774828
 Transform:
   m_ObjectHideFlags: 0

@@ -7,25 +7,33 @@ using UnityEngine.UI;
 public class UIComponents : MonoSingleton<UIComponents>
 {
 	private Dictionary<string, UIBehaviour[]> _uiComponents;
-	private Transform[] _objects;
+	private Dictionary<string, Component[]> _components;
 
 	private void Awake()
 	{
-		_objects = GetComponentsInChildren<Transform>(true);
-
 		_uiComponents = new Dictionary<string, UIBehaviour[]>();
+		_components = new Dictionary<string, Component[]>();
 
-		GetUIComponents<Image>();
-		GetUIComponents<TextMeshProUGUI>();
-		GetUIComponents<Button>();
-		GetUIComponents<VerticalLayoutGroup>();
-		GetUIComponents<Scrollbar>();
+		FindUIComponents<Image>();
+		FindUIComponents<TextMeshProUGUI>();
+		FindUIComponents<Button>();
+		FindUIComponents<VerticalLayoutGroup>();
+		FindUIComponents<Scrollbar>();
+
+		FindComponents<Transform>();
+		FindComponents<CanvasGroup>();
 	}
 
-	private void GetUIComponents<T>() where T : UIBehaviour
+	private void FindUIComponents<T>() where T : UIBehaviour
 	{
 		T[] components = GetComponentsInChildren<T>(true);
 		_uiComponents.Add(typeof(T).Name, components);
+	}
+
+	private void FindComponents<T>() where T : Component
+	{
+		T[] components = GetComponentsInChildren<T>(true);
+		_components.Add(typeof(T).Name, components);
 	}
 
 	public T GetUIElement<T>(string name) where T : UIBehaviour
@@ -44,13 +52,16 @@ public class UIComponents : MonoSingleton<UIComponents>
 		return null;
 	}
 
-	public GameObject GetObject(string name)
+	public T GetComponent<T>(string name) where T : Component
 	{
-		foreach (Transform obj in _objects)
+		if (_components.TryGetValue(typeof(T).Name, out Component[] arr))
 		{
-			if (obj.gameObject.name.Equals(name))
+			foreach (Component elem in arr)
 			{
-				return obj.gameObject;
+				if (elem.gameObject.name.Equals(name))
+				{
+					return elem as T;
+				}
 			}
 		}
 

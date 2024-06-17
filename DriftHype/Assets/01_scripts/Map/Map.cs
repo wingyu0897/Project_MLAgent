@@ -12,7 +12,6 @@ public class Map : MonoBehaviour
 	private List<CarController> cars = new List<CarController>();
 	[SerializeField] private TextMeshPro countText;
 
-	public event Action OnGameEnd;
 	public event Action<ICar, bool> IsRightCheckPoint;
 
 	private void Awake()
@@ -52,21 +51,17 @@ public class Map : MonoBehaviour
 		}
 	}
 
-	private bool isEnd = false;
-
 	private void SetPoint(ICar car, GameObject point)
 	{
 		bool isRightPoint = car.NextTarget.Equals(point);
 		IsRightCheckPoint?.Invoke(car, isRightPoint);
 		if (isRightPoint)
 		{
-			if (point == checkPoints[checkPoints.Count - 1] && !isEnd) // 마지막 체크포인트에 도달했다면 게임 종료
+			if (point == checkPoints[checkPoints.Count - 1]) // 마지막 체크포인트에 도달했다면 게임 종료
 			{
-				isEnd = true;
-				OnGameEnd?.Invoke();
-				if (GameSceneManager.Instance is not null)
+				if (GameSceneManager.Instance is not null && GameSceneManager.Instance.CurrentState != GAME_STATE.END)
 				{
-					GameSceneManager.Instance.isPlayerWin = car.IsPlayer;
+					GameSceneManager.Instance.IsPlayerWin = car.IsPlayer;
 					GameSceneManager.Instance.ChangeState(GAME_STATE.END);
 				}
 			}

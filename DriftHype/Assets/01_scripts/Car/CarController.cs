@@ -23,7 +23,6 @@ public class CarController : MonoBehaviour, ICar
 
 	[Header("Collision")]
 	[SerializeField] private float bounceSpeed;
-	[SerializeField] private float bouncePower = 5f;
 
 	[Header("References")]
 	private Rigidbody rigid;
@@ -230,7 +229,7 @@ public class CarController : MonoBehaviour, ICar
 			float normalVelocity = Mathf.Cos(angle) * collision.relativeVelocity.magnitude;
 			if (normalVelocity > bounceSpeed)
 			{
-				rigid.AddForce(point.normal * bouncePower, ForceMode.Impulse);
+				rigid.AddForce(point.normal * collision.relativeVelocity.magnitude * 0.8f, ForceMode.Impulse);
 			}
 		}
 	}
