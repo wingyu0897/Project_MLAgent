@@ -67,7 +67,6 @@ public class CarSelect : MonoBehaviour
 				{
 					if (_currentSelectIndex != i)
 					{
-						print(i);
 						SetSize(_currentSelectIndex, false);
 
 						_currentSelectIndex = i;

@@ -68,7 +68,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3695701707214402330, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
+    - {fileID: 6990089276812011005, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
+    - {fileID: 8771298258866887685, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -205,5 +208,5 @@ MonoBehaviour:
   m_AlternatingRayOrder: 1
   rayHitColor: {r: 1, g: 0, b: 0, a: 1}
   rayMissColor: {r: 1, g: 1, b: 1, a: 1}
-  m_StartVerticalOffset: 0
+  m_StartVerticalOffset: 1
   m_EndVerticalOffset: 0
