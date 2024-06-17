@@ -52,14 +52,17 @@ public class Map : MonoBehaviour
 		}
 	}
 
+	private bool isEnd = false;
+
 	private void SetPoint(ICar car, GameObject point)
 	{
 		bool isRightPoint = car.NextTarget.Equals(point);
 		IsRightCheckPoint?.Invoke(car, isRightPoint);
 		if (isRightPoint)
 		{
-			if (point == checkPoints[checkPoints.Count - 1]) // 마지막 체크포인트에 도달했다면 게임 종료
+			if (point == checkPoints[checkPoints.Count - 1] && !isEnd) // 마지막 체크포인트에 도달했다면 게임 종료
 			{
+				isEnd = true;
 				OnGameEnd?.Invoke();
 				if (GameSceneManager.Instance is not null)
 				{
