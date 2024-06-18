@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(CarController))]
 public class CarInputAI : Agent, ICarInput
 {
-	//[SerializeField] AIMapManager mapManager;
+	[SerializeField] AIMapManager mapManager;
 
 	private CarController carController;
 	private float currentAngle;
@@ -23,17 +23,17 @@ public class CarInputAI : Agent, ICarInput
 	{
 		carController = GetComponent<CarController>();
 		carController.input = this;
-
-		GameObject visual = visuals[Random.Range(0, visuals.Count)];
-		GetComponent<CarVisual>()?.SetVisual(visual);
 	}
 
 	public override void OnEpisodeBegin()
 	{
+		GameObject visual = visuals[Random.Range(0, visuals.Count)];
+		GetComponent<CarVisual>()?.SetVisual(visual);
+
 		carController?.StopMovement();
-		carController.transform.rotation = Quaternion.Euler(0, 0, 0);
+		//carController.transform.rotation = Quaternion.Euler(0, 0, 0);
 		//carController?.SetMove(true);
-		currentAngle = 0f;
+		//currentAngle = 0f;
 		//Map generatedMap = mapManager.GenerateMap(carController);
 		//generatedMap.OnGameEnd += () =>
 		//{
@@ -63,10 +63,10 @@ public class CarInputAI : Agent, ICarInput
 			_ => currentAngle,
 		};
 
-		if (angle > 0)
-		{
-			AddReward(-0.01f);
-		}
+		//if (angle > 0)
+		//{
+		//	AddReward(-0.003f);
+		//}
 
 
 		carController.SetAngleDesire(currentAngle);
@@ -83,7 +83,7 @@ public class CarInputAI : Agent, ICarInput
 	{
 		if (collision.gameObject.CompareTag("Wall"))
 		{
-			AddReward(-0.1f);
+			//AddReward(-10f);
 		}
 	}
 

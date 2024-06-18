@@ -23,15 +23,18 @@ public class UIManager : MonoBehaviour
 																			 // Content의 패딩을 조절해 하위 오브젝트들이 중앙에 정렬될 수 있도록 변경함
 		instance.GetUIElement<VerticalLayoutGroup>("Content").padding = new RectOffset(0, 0, paddingHeight, paddingHeight);
 
+		// StartButton을 누르면 게임 시작
+		instance.GetUIElement<Button>("StartButton")?.onClick.AddListener(GameManager.Instance.StartGame);
+
+		// ExitButton을 누르면 게임 종료
+		instance.GetUIElement<Button>("ExitButton")?.onClick.AddListener(Application.Quit);
+
 		// CarsButton을 누르면 차량 선택 패널 활성화
 		instance.GetUIElement<Button>("CarsButton")?.onClick.AddListener(() =>
 		{
 			_menuPanel.SetActive(false);
 			_carsPanel.SetActive(true);
 		});
-
-		// StartButton을 누르면 게임 시작
-		instance.GetUIElement<Button>("StartButton")?.onClick.AddListener(GameManager.Instance.StartGame);
 
 		// CloseCarsPanel을 누르면 차량 선택 패널 비활성화
 		instance.GetUIElement<Button>("CloseCarsPanel")?.onClick.AddListener(() =>

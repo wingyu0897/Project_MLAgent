@@ -14,6 +14,9 @@ public class CarVisual : MonoBehaviour
 
     public void SetVisual(GameObject car)
 	{
+		GameObject oldVisual = transform.Find("Visual")?.gameObject;
+		if (oldVisual != null)
+			Destroy(oldVisual);
 		GameObject instance = Instantiate(car, transform);
 		instance.name = "Visual";
 		instance.transform.localRotation = Quaternion.Euler(0, -90f, 0);

@@ -14,6 +14,7 @@ public class AIMapManager : MonoBehaviour
 		}
 
         map = Instantiate(maps[Random.Range(0, maps.Count)], transform.position, Quaternion.identity);
+        map.IsAITraining = true;
         map.transform.SetParent(transform);
         map.Initialize(aiCar);
         return map;

@@ -76,7 +76,8 @@ PrefabInstance:
     - {fileID: 3695701707214402330, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
     - {fileID: 6990089276812011005, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
     - {fileID: 8771298258866887685, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 1834780723827780873, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 8494690079258904425, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
@@ -122,7 +123,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 69189e81289c088438fb87fae5222dbe, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 6b6b275d4214afe4c8652deba9f8f122, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: Car
@@ -159,6 +160,7 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 5000
+  mapManager: {fileID: 0}
   handleSensitive: 180
   visuals:
   - {fileID: 3322662670493636647, guid: ec1607fbda858c742bd65a4ec0dacad8, type: 3}

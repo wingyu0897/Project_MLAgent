@@ -12,6 +12,9 @@ public class Map : MonoBehaviour
 	private List<CarController> cars = new List<CarController>();
 	[SerializeField] private TextMeshPro countText;
 
+	[HideInInspector] public bool IsAITraining = false;
+
+	public event Action OnGameEnd;
 	public event Action<ICar, bool> IsRightCheckPoint;
 
 	private void Awake()
@@ -59,8 +62,9 @@ public class Map : MonoBehaviour
 		{
 			if (point == checkPoints[checkPoints.Count - 1]) // 마지막 체크포인트에 도달했다면 게임 종료
 			{
-				if (GameSceneManager.Instance is not null && GameSceneManager.Instance.CurrentState != GAME_STATE.END)
+				if (IsAITraining || (GameSceneManager.Instance is not null && GameSceneManager.Instance.CurrentState != GAME_STATE.END))
 				{
+					OnGameEnd?.Invoke();
 					GameSceneManager.Instance.IsPlayerWin = car.IsPlayer;
 					GameSceneManager.Instance.ChangeState(GAME_STATE.END);
 				}
