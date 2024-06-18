@@ -20,8 +20,8 @@ public class UIComponents : MonoSingleton<UIComponents>
 		FindUIComponents<VerticalLayoutGroup>();
 		FindUIComponents<Scrollbar>();
 
-		FindComponents<Transform>();
-		FindComponents<CanvasGroup>();
+		FindNonUIComponents<Transform>();
+		FindNonUIComponents<CanvasGroup>();
 	}
 
 	private void FindUIComponents<T>() where T : UIBehaviour
@@ -30,7 +30,7 @@ public class UIComponents : MonoSingleton<UIComponents>
 		_uiComponents.Add(typeof(T).Name, components);
 	}
 
-	private void FindComponents<T>() where T : Component
+	private void FindNonUIComponents<T>() where T : Component
 	{
 		T[] components = GetComponentsInChildren<T>(true);
 		_components.Add(typeof(T).Name, components);
@@ -52,7 +52,7 @@ public class UIComponents : MonoSingleton<UIComponents>
 		return null;
 	}
 
-	public T GetComponent<T>(string name) where T : Component
+	public T GetNonUIElement<T>(string name) where T : Component
 	{
 		if (_components.TryGetValue(typeof(T).Name, out Component[] arr))
 		{

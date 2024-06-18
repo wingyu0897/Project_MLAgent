@@ -8,8 +8,8 @@ public class UIManager : MonoBehaviour
 
 	private void Start()
 	{
-		_menuPanel = UIComponents.Instance.GetComponent<Transform>("MenuPanel").gameObject;
-		_carsPanel = UIComponents.Instance.GetComponent<Transform>("CarsPanel").gameObject;
+		_menuPanel = UIComponents.Instance.GetNonUIElement<Transform>("MenuPanel").gameObject;
+		_carsPanel = UIComponents.Instance.GetNonUIElement<Transform>("CarsPanel").gameObject;
 
 		SettingUI();
 	}

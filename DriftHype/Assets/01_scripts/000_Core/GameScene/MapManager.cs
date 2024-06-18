@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class MapManager : MonoBehaviour
@@ -24,6 +25,7 @@ public class MapManager : MonoBehaviour
 		playerCar = Instantiate(playerCar);
 		aiCar = Instantiate(aiCar);
 		map = Instantiate(maps[Random.Range(0, maps.Count)]);
+		UIComponents.Instance.GetUIElement<TextMeshProUGUI>("MapName")?.SetText(map.gameObject.name.Replace("(Clone)", ""));
 
 		map.Initialize(playerCar, aiCar);
 		followCam.target = playerCar.transform;

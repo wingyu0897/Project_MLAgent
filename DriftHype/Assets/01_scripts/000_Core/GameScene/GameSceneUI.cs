@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class GameSceneUI : MonoBehaviour
 {
-    private Dictionary<GAME_STATE, CanvasGroup> canvas = new();
+    private Dictionary<GAME_STATE, CanvasGroup> _canvas = new();
 
 	[SerializeField] private Button startBtn;
 	[SerializeField] private Button menuBtn;
@@ -20,8 +20,8 @@ public class GameSceneUI : MonoBehaviour
 		{
 			string str = state.ToString();
 			str = char.ToUpper(str[0]) + str.ToLower().Substring(1);
-			CanvasGroup cG = transform.Find(str).GetComponent<CanvasGroup>();
-			canvas.Add(state, cG);
+			CanvasGroup canvasGroup = transform.Find(str).GetComponent<CanvasGroup>();
+			_canvas.Add(state, canvasGroup);
 		}
 
 		GameSceneManager.Instance.OnStateChanged += SetUIByState;
@@ -32,11 +32,11 @@ public class GameSceneUI : MonoBehaviour
 
 	public void SetUIByState(GAME_STATE state)
 	{
-		foreach (var elem in canvas)
+		foreach (var elem in _canvas)
 		{
 			SetVisibleCanvasGroup(elem.Value, false);
 		}
-		SetVisibleCanvasGroup(canvas[state], true);
+		SetVisibleCanvasGroup(_canvas[state], true);
 
 		if (state == GAME_STATE.END)
 		{

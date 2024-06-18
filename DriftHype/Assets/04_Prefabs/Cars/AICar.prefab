@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3773687015387171796, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
       propertyPath: maxSpeed
-      value: 53
+      value: 55
       objectReference: {fileID: 0}
     - target: {fileID: 3773687015387171796, guid: 972f44e0dacfcea4491d858ce2d368fa, type: 3}
       propertyPath: turnRate
