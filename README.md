@@ -17,4 +17,4 @@ ML-Agent 프로젝트로 제작하였으며, ML-Agent를 사용하여 AI를 학�
 
 ---
 
-[<h3>[완성본 바로가기]</h3>](https://drive.google.com/file/d/13Mp2w11gBhvqJDGx_0nq-PvtHmXFdW1n/view?usp=sharing)
+### [[완성본 바로가기]](https://drive.google.com/file/d/13Mp2w11gBhvqJDGx_0nq-PvtHmXFdW1n/view?usp=sharing)
